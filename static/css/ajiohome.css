@@ -1,0 +1,185 @@
+body{margin:0px;
+       padding:0px;
+       overflow-x:hidden;}
+
+.navbar{background-color: rgba(30, 30, 30, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        position:absolute;
+        padding:10px 20px !important;
+        margin-bottom:0px;
+        height:70px;
+        top:0;
+        left:0;
+        right:0;
+        display:flex;
+        z-index:10 !important;
+        justify-content: space-between;}
+
+.navbar .container-fluid {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar,
+.container-fluid,
+.nav-item {
+  overflow: visible !important;
+}
+
+.navbar .nav-item,
+.navbar .nav-link,
+.navbar .navbar-brand{color:white !important;
+                                    }
+
+.navbar .nav-link i {
+  margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+.navbar .nav-item:hover,
+.navbar .nav-link:hover,
+.navbar .navbar-brand:hover{color:aqua !important;}
+
+.dropdown-menu{background-color:rgba(30, 30, 30, 0.8) !important;
+                position:absolute !important;
+                overflow: visible;
+                left:-40px !important;
+                top:55px !important;
+                width:350px !important;
+                z-index:2 !important;
+                border-radius:0px !important;
+                padding:0px !important;
+                max-height:580px !important;
+                z-index: 1055 !important;
+                }
+
+
+.dropdown-item{margin:0px !important;
+                padding:30px 20px !important;
+                color:white !important;
+                font-weight:bold !important;
+                text-align:center;}
+
+.dropdown-menu:hover,
+.dropdown-item:hover{color:aqua !important;
+                        background-color:rgba(30, 30, 30, 0.2)}
+
+
+.dropdown-divider{margin:0px !important;
+                    padding:0px !important;}
+
+.navbar .form-control{background-color: offwhite !important;
+                color:#000000 !important;
+                border:0px !important;}
+
+
+.navbar .form-control::placeholder {
+    color: #888888 !important;
+}
+
+.navbar button{color:#f8f9fa !important;}
+
+button.btn.btn-outline-success{border-color:gold !important;}
+
+.carousel {
+    z-index: 1;
+    position: relative;
+    height:632px;
+}
+
+.carousel-caption h1 {
+    font-family:"Times New Roman, Times, serif";
+    color:Gold;
+    font-weight:bold;
+    font-size:60px;
+    text-align:center;
+}
+
+.carousel-caption p{color:black;}
+
+.newaqua{color:aqua;}
+
+
+
+.carousel-inner{background-color:white;}
+
+.carousel-inner .carousel-item img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom !important;
+  margin-top:-30px;
+  width: 100%;
+}
+
+
+.shopbycat{margin-top:20px;
+            text-align:center;
+            font-weight:bold;
+            font-family:"Times New Roman, Times, serif";
+            font-size: 30px;}
+
+.shopbycatname{margin-top:20px;
+              margin-left:40px;
+              font-weight:bold;
+              font-family:"Times New Roman, Times, serif";
+              font-size: 30px;}
+
+.scroll-container{display:flex;
+                    flex-direction:row;
+                    flex-wrap:nowrap;
+                    overflow-x:auto;
+                    gap:20px;
+                    padding:20px;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;}
+
+.card{background-color:white;
+       border-radius:5px;
+       width:280px;
+       flex: 0 0 auto;
+       transform:scale(0.9);
+       transition: transform 0.3s ease-out;}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.card:hover{transform:scale(0.92);
+            box-shadow: 0 0 15px 2px rgba(30, 144, 255, 0.8);}
+
+
+.card-body{min-height:50px;
+            overflow:hidden;}
+
+.card-img-top{height:300px;
+                object-fit:cover;
+                object-position: center;}
+
+.card-title-justify{white-space:nowrap;
+              overflow:hidden;
+              text-overflow:ellipsis;
+              display:block;
+              width:100%;}
+
+.offerhead{text-align:center;
+            font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight:bold;
+            margin-top:30px;
+            margin-bottom:30px;}
+
+.display-image{width:100%;
+                margin-top:80px;
+                background-color:black;}
+
+.display-image img{object-fit:cover;
+                    object-position: top center;
+                    width:100%;
+                    max-height:850px;}
+
+
+
+

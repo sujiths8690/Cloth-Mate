@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .models import *
@@ -249,3 +250,34 @@ def transaction_history(request):
         transaction=Transaction.objects.filter(user_id=request.session['user_id'])
         return render(request,'tansactionhistory.html',{'transaction':transaction})
     return HttpResponse("Please login to continue!")
+=======
+from django.contrib.auth.models import User
+from django.shortcuts import render,redirect
+from .models import *
+
+# Create your views here.
+from django.http import HttpResponse
+
+def ajio_home(request):
+    gender_obj=Gender.objects.all()
+    men_obj=ClothType.objects.filter(gender__gender_id=1)
+    women_obj=ClothType.objects.filter(gender__gender_id=2)
+    boys_obj=ClothType.objects.filter(gender__gender_id=3)
+    girls_obj=ClothType.objects.filter(gender__gender_id=4)
+    return render(request,'ajiohome.html',{'data':gender_obj,'men_data':men_obj,'women_data':women_obj,"boy_data":boys_obj,"girl_data":girls_obj})
+
+def user_register(request):
+    if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        email=request.POST.get('email')
+
+        existing_user=User.objects.get(username=username)
+
+        if existing_user:
+            return render(request,'login.html')
+
+        if not existing_user:
+            user=User.objects.create_user(username=username,password=password,email=email)
+
+>>>>>>> 7cb7e58 (clothmate added)

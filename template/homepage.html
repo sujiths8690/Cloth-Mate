@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankofIndia</title>
+  {%load static%}
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="{%static 'css/homepage.css'%}">
+</head>
+
+
+<body>
+
+<nav class="navbar navbar-expand-lg" style="background-image:url('{%static 'wp10360333-dark-blue-pattern-wallpapers.jpg'%}'); background-repeat:no-repeat; background-position:center; background-size:cover;">
+  <div class="container-fluid">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            <li class="nav-item dropdown" style="padding-right:25px; border-right:1px solid grey;">
+              <a class="nav-link  d-block dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                {%if user_data%}
+                <i class="fas fa-user" style="color:white; border-color:white;"></i><br>
+                    <small class="navlogin">Hi, {{user_data.user_first_name.title}}</small>
+                {%else%}
+                <i class="fas fa-user" style="color:black;"></i><br>
+                    <small class="navlogin">Login</small>
+                {%endif%}
+              </a>
+
+              <ul class="dropdown-menu text-center" style="background-color:white;">
+                    {%if user_data%}
+                    <li><label for="accountnumber" style="font-weight:bold; cursor:pointer;">Account number</label></li>
+                    <li><input type="text" id="accountnumber" value="{{user_data.user_id}}" readonly></input></li>
+                    <li><label for="useremail" style="font-weight:bold; cursor:pointer;">Email ID</label></li>
+                    <li><input type="text" id="useremail" value="{{user_data.user_email}}" readonly></input></li>
+                    <li class="text-center"><a class="dropdown-item d-inline-block" href="/logout/" style="background-color:red; width:100px; margin:30px 0px 30px 0px; border-radius:3px;">
+                        <i class="fas fa-sign-out-alt"></i>Logout</a></li>
+              {%else%}
+                  <li>
+                    <form action="{%url 'login'%}" method="POST" class="px-4 py-3">
+                        {%csrf_token%}
+
+                        <div class="mb-3">
+                            <label for="account_number" style="color:black; margin-bottom:5px;">Account Number</label>
+                            <input type="number" id="account_number" name="account_number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="account_password" style="color:black; margin-bottom:5px;">Password</label>
+                            <input type="password" id="account_password" name="account_password">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="padding:2px 5px;">Login</button>
+
+                         {% if bank_response %}
+                        <p style="color: red;">{{ bank_response }}</p>
+                         {% endif %}
+                    </form>
+                  </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="text-center">
+                             <div class="d-flex flex-column align-items-center">
+                                <p style="margin-bottom:3px; color:grey;">Don't have an account?</p>
+                                <a  href="adduser/" style="">Register</a>
+                             </div>
+                        </li>
+              {%endif%}
+              </ul>
+            </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/"><i class="fas fa-home"></i></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href=""><i class="fas fa-phone"></i><small>1800-1900-1200</small></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/transactionhistory/"><i class="fas fa-address-card"></i></a>
+        </li>
+      </ul>
+      <div class="position-absolute top-50 start-50 translate-middle">
+        <div style="background-color:white; justify-content:center; position:relative;">
+          <a class="navbar-brand fw-bold" href="/">BOI</a>
+        </div>
+      </div>
+      <a style="position:absolute; color:white; font-size:14px; top:58px; left:595px;">Bank of India</a>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
+    </div>
+  </div>
+</nav>
+
+    {%if user_data%}
+        <div class="userinfo" style="background-image:url('{%static 'userinfo.png'%}'); background-size:contain; margin:40px 20px; border-radius:8px;">
+
+            <div class="useraccountinfo d-flex justify-content-between" style="background-color:white;">
+
+                <div class="text-center" style="color:black;">
+                    <div style="display:flex; align-items:center;">
+                        <i class="fas fa-building-columns"
+                           style="background-color:gold; margin-top:5px; border-radius:50%; padding:6px 8px; vertical-align:top;"></i>
+                        <p style="font-weight:bold; margin: 0 0 0 5px; ">{{user_data.acc_type.acc_name}}</p>
+                    </div>
+                    <small>{{user_data.user_id}}</small>
+                </div>
+            <div class="text-center" style="color:black;">
+                <p style="font-weight:bold; margin: 0 0 0 5px;">Balance</p>
+                {%if not user_data.user_balance%}
+                    <small style="font-weight:600;">₹ 0</small>
+                {%else%}
+                    <small style="font-weight:600;">₹ {{user_data.user_balance}}</small>
+                {%endif%}
+            </div>
+
+        </div>
+
+        <div class="bank-icon d-flex justify-content-between" style="margin:10px 30px 0px 30px; text-align:center;">
+           <div style="display:flex; flex-direction:column; align-items:center;">
+                <a href="transfer/" style="text-decoration:none;"><i class="fas fa-money-bill-transfer"></i></a>
+                <a href="transfer/" style="color:white; margin-top:-3px; text-decoration:none;">Transfer</a>
+           </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <a href="/deposit/"><i class="fas fa-money-bill-wave"></i> </a>
+                <a href="/deposit/" style="color:white; margin-top:-3px; text-decoration:none;">Deposit</a>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <a href="/withdrawal/"><i class="fas fa-wallet"></i> </a>
+                <a href="/withdrawal/" style="color:white; margin-top:-3px; text-decoration:none;">Withdrawal</a>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <a><i class="fas fa-money-check"></i> </a>
+                <a href="" style="color:white; margin-top:-3px; text-decoration:none;">Bill payments</a>
+            </div>
+
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <a><i class="fas fa-credit-card"></i> </a>
+                <a href="" style="color:white; margin-top:-3px; text-decoration:none;">Credit Card</a>
+            </div>
+        </div>
+
+    </div>
+    {%endif%}
+
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner" style="height:556px">
+        <div class="carousel-item active">
+          <img src="{% static 'bankcarousal.jpg'%}"  class="d-block w-100" alt="book library">
+          <div class="carousel-caption d-none d-md-block">
+            <h2 style="background-color:white; color:navy; width:60px; margin:auto;">BOI</h2>
+            <p>Our Mobile Application for seamless banking!</p>
+          </div>
+        </div>
+        {%if ad_data%}
+          {% for x in ad_data%}
+            <div class="carousel-item">
+              <img src="{{x.ad_img.url}}" class="d-block w-100" alt="...">
+            </div>
+          {%endfor%}
+        {%else%}
+            <div class="carousel-item">
+              <img src="{%static '3739918.png'%}" class="d-block w-100" alt="no book image">
+
+              <div class="carousel-caption d-none d-md-block">
+                <h1>Sorry!</h1>
+                <p>No Book Available</p>
+              </div>
+            </div>
+        {%endif%}
+      </div>
+    </div>
+
+    <div id="about" style=" border-bottom:1px solid rgba(128, 128, 128, 0.5);">
+        <h3 style="color:gold;margin-bottom:20px;">About Us</h3>
+        <p>The Bank of India (BOI) was founded in 1906 by a group of
+            visionary and passionate individuals with a mission to
+            provide the people of India with accessible financial services.
+            From its humble beginnings in Mumbai, Bank of India has
+            grown to become one of the most trusted names in the
+            Indian banking sector.</p>
+
+        <p>Over the years, we have continuously expanded our services,
+            evolved our technologies, and reached new milestones that
+            have enabled us to become a cornerstone of India's economic
+            growth.</p>
+
+        <p>Key Milestones:</p>
+            <ul>
+                <li>1906: Established in Mumbai, with a strong belief in making
+                    banking services accessible to the common man.</li>
+                <li>1946: Nationalized by the Government of India, setting the
+                    foundation for rapid expansion across the country.</li>
+                <li>1970s-80s: Expansion into international markets, with branches
+                    in major global financial hubs such as London, New York, and Singapore.
+                </li>
+                <li>1990s: Introduction of modern banking services like ATMs, debit/credit
+                    cards, and online banking for customers, revolutionizing the way we bank.</li>
+                <li>2000: First Indian bank to receive ISO certification for quality management.</li>
+
+                <li>2010-2020: Bank of India continued its focus on technological innovations,
+                    offering mobile banking, digital wallets, and cashless transactions.</li>
+            </ul>
+
+        <p>Through these years, we have not only witnessed significant growth but have also seen a
+            strong track record of industry recognition and awards, making us proud to stand as one
+            of India's leading banking institutions.</p>
+        <p>We pride ourselves on our long-standing relationships with customers and our dedication
+            to improving their financial well-being. With our diverse portfolio of services—from retail
+            banking to corporate banking, from wealth management to insurance—we are committed to providing
+            our customers with the tools they need to build their financial futures.</p>
+    </div>
+
+    <div id="banktrust">
+
+        <h3 style="margin-bottom:30px;">Why Choose Bank of India?</h3>
+
+        <ol>
+            <li>
+                <strong>Trusted Legacy</strong>
+                <p>For over a century, Bank of India has been a pillar of trust for millions
+                    of customers worldwide. With a rich history rooted in Indian values and
+                    customer-first policies, we are proud to have served generations and earned
+                    their unwavering confidence.</p>
+            </li>
+
+            <li>
+               <strong>Wide Network</strong>
+               <p>With thousands of branches and ATMs across India and a presence in key international markets, Bank of India offers unmatched accessibility and reach.</p>
+            </li>
+
+            <li>
+                <strong>Innovative Digital Banking</strong>
+                <p>From mobile banking apps to online services, BOI combines tradition with modern technology, giving you secure and convenient access to your finances anytime, anywhere.</p>
+            </li>
+
+            <li>
+                <strong>Customer-Centric Services</strong>
+                <p>Whether you're an individual, SME, or corporate client, our tailor-made banking solutions are designed to meet your specific financial needs.</p>
+            </li>
+
+            <li>
+                <strong>Competitive Interest Rates</strong>
+                <p>Enjoy attractive interest rates on savings accounts, fixed deposits, loans, and other financial products — helping you grow your money faster.</p>
+            </li>
+
+            <li>
+                <strong>Secure and Transparent</strong>
+                <p>Bank of India adheres to strict regulatory standards and transparent practices to ensure the safety and security of your transactions and data.</p>
+            </li>
+
+            <li>
+                <strong>Financial Inclusion</strong>
+                <p>Committed to empowering every Indian, BOI actively supports government initiatives and provides banking access in rural and underserved regions.</p>
+            </li>
+
+            <li>
+                <strong>Experienced and Supportive Staff</strong>
+                <p>Our dedicated team of professionals is here to assist you with personalized advice and top-notch service, ensuring a smooth and satisfying banking experience.</p>
+            </li>
+
+        </ol>
+
+    </div>
+
+    <div class="bankbottom" style="background-color:rgb(64, 64, 64);">
+        <div class="row justify-content-center">
+            <div class="col-12" style="text-align:center;">
+                <h5>BOI</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <h5>Useful links</h5>
+                <div class="d-flex flex-column">
+                    <a href="/">Home</a>
+                    <a href="/adduser/">Register</a>
+                    <a href="transfer/">Transfer</a>
+                    <a href="/deposit/">Deposit</a>
+                    <a href="/withdrawal/">Withdrawal</a>
+                    <a href="/transactionhistory/">Transaction history</a>
+                </div>
+            </div>
+            <div class="col-3">
+                <h5>Resources</h5>
+                <a href="">Bank of India</a>
+            </div>
+            <div class="col-3 d-flex flex-column">
+                <h5>Contact us</h5>
+                 <a href=""><i class="fas fa-phone"></i> 1800-1900-1200</a>
+                 <a href=""><i class="fas fa-envelope"></i> customer@bankofindia.com</a>
+            </div>
+            <div class="col-3">
+                <h5>Address</h5>
+                <div class="d-flex flex-column">
+                    <h6>Bank of India</h6>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li>Head Office: 1234, Ashoka Avenue,Sector 12, New Capital City,</li>
+                        <li>New Delhi – 110011, India</li>
+                        <li>Phone: +91-11-23456789</li>
+                        <li>Email: support@bankofindia.in</li>
+                        <li>Website: www.bankofindia.in</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
